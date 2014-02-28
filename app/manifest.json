@@ -27,9 +27,6 @@
   "permissions": [
     "tabs",
     "history",
-    "infobars",
-    "sessions",
-    "commands",
     "management",
     "http://*/*",
     "unlimitedStorage",
