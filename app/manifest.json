@@ -28,6 +28,7 @@
     "tabs",
     "history",
     "management",
+    "webNavigation",
     "http://*/*",
     "unlimitedStorage",
     "https://*/*",
