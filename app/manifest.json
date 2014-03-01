@@ -9,34 +9,22 @@
         "default_icon": "imgs/icon.png",
         "default_popup": "popup.html"
     },
-    "content_scripts": [
-        {
-            "matches": [
-                "*://*/*"
-            ],
-            "js": [
-                "js/jquery.min.js",
-                "js/config.js",
-                "js/utils.js",
-                "js/requests.js",
-                "js/content.js"
-            ],
-            "run_at": "document_end"
-        }
-    ],
-    "background": {
+  "background": {
         "scripts": [
             "js/collector.js", "js/background.js"
         ]
-    },
-    "permissions": [
-        "tabs",
-        "history",
-        "management",
-        "webNavigation",
-        "http://*/*",
-        "unlimitedStorage",
-        "https://*/*",
-        "background"
-    ]
+  },
+  "chrome_url_overrides" : {
+    "history": "history.html"
+  },
+  "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'",
+  "permissions": [
+    "tabs",
+    "history",
+    "management",
+    "webNavigation",
+    "http://*/*",
+    "unlimitedStorage",
+    "https://*/*"
+  ]
 }
