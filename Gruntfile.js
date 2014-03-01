@@ -19,7 +19,7 @@ module.exports = function (grunt) {
                 spawn: false
             },
             coffee: {
-                files: ['<%= provenance.app %>/scripts/{,*/}*.coffee'],
+                files: ['<%= provenance.app %>/js/{,*/}*.coffee'],
                 tasks: ['coffee:dist']
             },
             coffeeTest: {
@@ -27,7 +27,7 @@ module.exports = function (grunt) {
                 tasks: ['coffee:test']
             },
             compass: {
-                files: ['<%= provenance.app %>/styles/{,*/}*.{scss,sass}'],
+                files: ['<%= provenance.app %>/css/{,*/}*.{scss,sass}'],
                 tasks: ['compass:server']
             }
         },
@@ -61,16 +61,6 @@ module.exports = function (grunt) {
             },
             server: '.tmp'
         },
-        jshint: {
-            options: {
-                jshintrc: '.jshintrc'
-            },
-            all: [
-                'Gruntfile.js',
-                '<%= provenance.app %>/scripts/{,*/}*.js',
-                'test/spec/{,*/}*.js'
-            ]
-        },
         mocha: {
             all: {
                 options: {
@@ -83,9 +73,9 @@ module.exports = function (grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: '<%= provenance.app %>/scripts',
+                    cwd: '<%= provenance.app %>/js',
                     src: '{,*/}*.coffee',
-                    dest: '.tmp/scripts',
+                    dest: '.tmp/js',
                     ext: '.js'
                 }]
             },
@@ -101,15 +91,15 @@ module.exports = function (grunt) {
         },
         compass: {
             options: {
-                sassDir: '<%= provenance.app %>/styles',
-                cssDir: '.tmp/styles',
-                generatedImagesDir: '.tmp/images/generated',
-                imagesDir: '<%= provenance.app %>/images',
-                javascriptsDir: '<%= provenance.app %>/scripts',
-                fontsDir: '<%= provenance.app %>/styles/fonts',
+                sassDir: '<%= provenance.app %>/css',
+                cssDir: '.tmp/css',
+                generatedImagesDir: '.tmp/imgs/generated',
+                imagesDir: '<%= provenance.app %>/imgs',
+                javascriptsDir: '<%= provenance.app %>/js',
+                fontsDir: '<%= provenance.app %>/css/fonts',
                 importPath: '<%= provenance.app %>/bower_components',
-                httpImagesPath: '/images',
-                httpGeneratedImagesPath: '/images/generated',
+                httpImagesPath: '/imgs',
+                httpGeneratedImagesPath: '/imgs/generated',
                 relativeAssets: false
             },
             dist: {},
@@ -144,15 +134,15 @@ module.exports = function (grunt) {
                 dirs: ['<%= provenance.dist %>']
             },
             html: ['<%= provenance.dist %>/{,*/}*.html'],
-            css: ['<%= provenance.dist %>/styles/{,*/}*.css']
+            css: ['<%= provenance.dist %>/css/{,*/}*.css']
         },
         imagemin: {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: '<%= provenance.app %>/images',
+                    cwd: '<%= provenance.app %>/imgs',
                     src: '{,*/}*.{png,jpg,jpeg}',
-                    dest: '<%= provenance.dist %>/images'
+                    dest: '<%= provenance.dist %>/imgs'
                 }]
             }
         },
@@ -160,18 +150,18 @@ module.exports = function (grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: '<%= provenance.app %>/images',
+                    cwd: '<%= provenance.app %>/imgs',
                     src: '{,*/}*.svg',
-                    dest: '<%= provenance.dist %>/images'
+                    dest: '<%= provenance.dist %>/imgs'
                 }]
             }
         },
         cssmin: {
             dist: {
                 files: {
-                    '<%= provenance.dist %>/styles/main.css': [
-                        '.tmp/styles/{,*/}*.css',
-                        '<%= provenance.app %>/styles/{,*/}*.css'
+                    '<%= provenance.dist %>/css/main.css': [
+                        '.tmp/css/{,*/}*.css',
+                        '<%= provenance.app %>/css/{,*/}*.css'
                     ]
                 }
             }
@@ -207,13 +197,13 @@ module.exports = function (grunt) {
                     dest: '<%= provenance.dist %>',
                     src: [
                         '*.{ico,png,txt}',
-                        'images/{,*/}*.{webp,gif}',
+                        'imgs/{,*/}*.{webp,gif}',
                         '_locales/{,*/}*.json'
                     ]
                 }, {
                     expand: true,
-                    cwd: '.tmp/images',
-                    dest: '<%= provenance.dist %>/images',
+                    cwd: '.tmp/imgs',
+                    dest: '<%= provenance.dist %>/imgs',
                     src: [
                         'generated/*'
                     ]
@@ -242,7 +232,7 @@ module.exports = function (grunt) {
                 options: {
                     buildnumber: true,
                     background: {
-                        target:'scripts/background.js'
+                        target:'js/background.js'
                     }
                 },
                 src: '<%= provenance.app %>',
@@ -285,8 +275,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('default', [
-        'jshint',
-        'test',
+        // 'test',
         'build'
     ]);
 };
