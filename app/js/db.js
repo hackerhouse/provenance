@@ -1,16 +1,5 @@
-var db;
-
-db.open = function() {
-  var version = 1;
-  var request = indexedDB.open("dendwrite", version);
-
-  request.onsuccess = function(e) {
-    db.= e.target.result;
-    // Do some more stuff in a minute
-  };
-
-  request.onerror = db.onerror;
-};
+var db = {};
+db.db = null;
 
 db.open = function() {
   var version = 1;
@@ -18,7 +7,7 @@ db.open = function() {
 
   // We can only create Object stores in a versionchange transaction.
   request.onupgradeneeded = function(e) {
-    var db = e.target.result;
+    db.db = e.target.result;
 
     // A versionchange transaction is started automatically.
     e.target.transaction.onerror = db.onerror;
@@ -32,24 +21,46 @@ db.open = function() {
   };
 
   request.onsuccess = function(e) {
+    console.log(e);
     db.db = e.target.result;
     db.getAllNodes();
+    console.log('it opened');
   };
 
   request.onerror = db.onerror;
 };
 
+db.getAllNodes = function() {
+  var nodeStore = db.db;
+  var trans = nodeStore.transaction(["dendwrite"], "readwrite");
+  var store = trans.objectStore("dendwrite");
+
+  // Get everything in the store;
+  var keyRange = IDBKeyRange.lowerBound(0);
+  var cursorRequest = store.openCursor(keyRange);
+
+  cursorRequest.onsuccess = function(e) {
+    var result = e.target.result;
+    if(!!result == false)
+      return;
+
+    result.continue();
+  };
+
+  cursorRequest.onerror = db.onerror;
+};
+
 db.addNode = function(dendwriteText) {
-  var db = db;
-  var trans = db.transaction(["dendwrite"], "readwrite");
+  var nodeStore = db.db;
+  var trans = nodeStore.transaction(["dendwrite"], "readwrite");
   var store = trans.objectStore("dendwrite");
   var request = store.put({
-    "text": ,
+    "text": "as;ldkfjd",
     "timeStamp" : new Date().getTime()
   });
 
   request.onsuccess = function(e) {
-    // Re-render all the dendwrite's
+    // Re-render all the nodes 
     db.getAllNodes();
   };
 

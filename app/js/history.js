@@ -3,11 +3,6 @@ function render_history(ctx) {
     $('#container').html(JSON.stringify(ctx));
 }
 
-function init() {
-  db.open(); // open displays the data previously saved
-}
-
-
 /* Triggered when the chrome://history page is visited */
 document.addEventListener('DOMContentLoaded', function () {
     if (chrome.extension.getBackgroundPage()._ctx) {

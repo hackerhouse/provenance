@@ -25,10 +25,6 @@ module.exports = function (grunt) {
             coffeeTest: {
                 files: ['test/spec/{,*/}*.coffee'],
                 tasks: ['coffee:test']
-            },
-            compass: {
-                files: ['<%= provenance.app %>/css/{,*/}*.{scss,sass}'],
-                tasks: ['compass:server']
             }
         },
         connect: {
@@ -87,26 +83,6 @@ module.exports = function (grunt) {
                     dest: '.tmp/spec',
                     ext: '.js'
                 }]
-            }
-        },
-        compass: {
-            options: {
-                sassDir: '<%= provenance.app %>/css',
-                cssDir: '.tmp/css',
-                generatedImagesDir: '.tmp/imgs/generated',
-                imagesDir: '<%= provenance.app %>/imgs',
-                javascriptsDir: '<%= provenance.app %>/js',
-                fontsDir: '<%= provenance.app %>/css/fonts',
-                importPath: '<%= provenance.app %>/bower_components',
-                httpImagesPath: '/imgs',
-                httpGeneratedImagesPath: '/imgs/generated',
-                relativeAssets: false
-            },
-            dist: {},
-            server: {
-                options: {
-                    debugInfo: true
-                }
             }
         },
         // not used since Uglify task does concat,
@@ -212,16 +188,13 @@ module.exports = function (grunt) {
         },
         concurrent: {
             server: [
-                'coffee:dist',
-                'compass:server'
+                'coffee:dist'
             ],
             test: [
-                'coffee',
-                'compass'
+                'coffee'
             ],
             dist: [
                 'coffee',
-                'compass:dist',
                 'svgmin',
                 'htmlmin'
             ]
@@ -269,8 +242,7 @@ module.exports = function (grunt) {
         'concat',
         // 'uglify',
         'copy',
-        'usemin',
-        'compress'
+        'usemin'
     ]);
 
     grunt.registerTask('default', [
