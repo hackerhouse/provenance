@@ -1,0 +1,7 @@
+v0.0.03, 2014-02-28 Fri -- MVPrototype
+- Content.js sends ctx (html, url) to backend
+- Placeholder for datastore ($insert_ctx)
+- Background.js syncs popup.js with content.js
+- Popup results in alert of content
+- idea: use infobar to update "session" (supervised)
+v0.0.01, 2014-02-28 Fri -- Initial Release

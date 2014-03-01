@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "provenance",
+    "description": "Capture more of your browsing experience"
+  },
+  "appDescription": {
+    "message": "A modern approach to Chromium Browser History",
+    "description": "Explore a detailed breakdown of your browsing session."
+  }
+}
