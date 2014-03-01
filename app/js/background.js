@@ -1,3 +1,5 @@
+var coll = new Collector();
+
 var _ctx, _tab; // tracks state of content.js's tab & ctx
 
 /*

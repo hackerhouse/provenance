@@ -1,4 +1,4 @@
-function() Collector {
+function Collector() {
   this._pending;
   this._completed;
 
