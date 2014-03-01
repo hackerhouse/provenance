@@ -1,3 +1,7 @@
+v0.0.05, 2014-03-01 Sat -- Connected
+- Zv's webNavigation collector
+- Override chrome://history
+- history.html/.js integrated
 v0.0.03, 2014-02-28 Fri -- MVPrototype
 - Content.js sends ctx (html, url) to backend
 - Placeholder for datastore ($insert_ctx)

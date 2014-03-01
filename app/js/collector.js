@@ -115,7 +115,6 @@ Collector.prototype = {
   onCompleted: function(data) {
     var id = this.parseId(data);
     this._completed[data.url].push({
-      openedInNewWindow: this._pending[id].openedInNewWindow,
       source: this._pending[id].source,
       transitionQualifiers: this._pending[id].transitionQualifiers,
       transitionType: this._pending[id].transitionType,
