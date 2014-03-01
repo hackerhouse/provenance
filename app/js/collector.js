@@ -3,17 +3,14 @@ function Collector() {
   this._completed = {};
 
   chrome.webNavigation.onCreatedNavigationTarget.addListener(
-      this.createdNavigationTargetListener.bind(this)
-  );
+      this.createdNavigationTargetListener.bind(this));
   chrome.webNavigation.onBeforeNavigate.addListener(
-      this.onBeforeNavigateListener.bind(this)
-  );
+      this.onBeforeNavigateListener.bind(this));
   chrome.webNavigation.onCommitted.addListener(
-      this.onCommittedListener.bind(this)
-  );
+      this.onCommittedListener.bind(this));
   chrome.webNavigation.onCompleted.addListener(
-    this.onCompletedListener.bind(this);
-  );
+    this.onCompleted.bind(this));
+
 }
 
 Collector.prototype = {
@@ -28,7 +25,7 @@ Collector.prototype = {
       message: {
         completed: this._completed
       }
-    }).bind(this);
+    });
   },
 
   /**
@@ -40,18 +37,19 @@ Collector.prototype = {
     @param {!string} url The request's URL.
    **/
   prepareUrlStorage: function(id, url) {
-    this._pending = this._pending[id] || {
+    this._pending[id] = this._pending[id] || {
       source: {
-        tabId: null
+        tabId: null,
         frameId: null
-      }
-      newTab: null
-      transitionType: null
-      url: null
-      screenCap: null
+      },
+      newTab: null,
+      transitionType: null,
+      url: null,
+      screenCap: null,
       timestamp: null
-    }
-  }
+    };
+    this._completed[url] = this._completed[url] || [];
+  },
 
   /**
    * Handler for the 'onCreatedNavigationTarget' event. Updates the
@@ -59,33 +57,33 @@ Collector.prototype = {
    * new tab.
    *
    * Pushes the request onto the
-   * 'pending_' object, and stores it for later use.
+   * '_pending' object, and stores it for later use.
    *
    * @param {!Object} data The event data generated for this request.
    * @private
    */
   createdNavigationTargetListener: function(data) {
-    var tabid = this.parseId(data);
-    this.prepareUrlStorage(tabid, data.url);
-    this.pending_[tabid].newTab = data.tabId;
-    this.pending_[tabid].source = {
+    var id = this.parseId(data);
+    this.prepareUrlStorage(id, data.url);
+    this._pending[id].newTab = data.tabId;
+    this._pending[id].source = {
       tabId: data.sourceTabId,
       frameId: data.sourceFrameId
     };
-    this.pending_[tabid].timestamp = data.timeStamp;
+    this._pending[id].timestamp = data.timeStamp;
   },
 
   /**
    * Handler for the 'onBeforeNavigate' event. Pushes the request onto the
-   * 'pending_' object, and stores it for later use.
+   * '_pending' object, and stores it for later use.
    *
    * @param {!Object} data The event data generated for this request.
    * @private
    */
   onBeforeNavigateListener: function(data) {
-    var tabid = this.parseId(data);
-    this.prepareUrlStorage(tabid, data.url);
-    this.pending_[tabid].start = this.pending_[tabid].start || data.timeStamp;
+    var id = this.parseId(data);
+    this.prepareUrlStorage(id, data.url);
+    this._pending[id].start = this._pending[id].start || data.timeStamp;
   },
 
   /**
@@ -93,7 +91,7 @@ Collector.prototype = {
    * transition information.
    *
    * Pushes the request onto the
-   * 'pending_' object, and stores it for later use.
+   * '_pending' object, and stores it for later use.
    *
    * @param {!Object} data The event data generated for this request.
    * @private
@@ -101,14 +99,14 @@ Collector.prototype = {
   onCommittedListener: function(data) {
     var id = this.parseId(data);
     this.prepareUrlStorage(id, data.url);
-    this.pending_[id].transitionType = data.transitionType;
-    this.pending_[id].transitionQualifiers = data.transitionQualifiers;
+    this._pending[id].transitionType = data.transitionType;
+    this._pending[id].transitionQualifiers = data.transitionQualifiers;
   },
 
 
   /**
    * Handler for the 'onCompleted` event. Pulls the request's data from the
-   * 'pending_' object, combines it with the completed event's data, and pushes
+   * '_pending' object, combines it with the completed event's data, and pushes
    * a new NavigationCollector.Request object onto 'completed_'.
    *
    * @param {!Object} data The event data generated for this request.
@@ -117,15 +115,15 @@ Collector.prototype = {
   onCompleted: function(data) {
     var id = this.parseId(data);
     this._completed[data.url].push({
-      duration: (data.timeStamp - this.pending_[id].start),
-      openedInNewWindow: this.pending_[id].openedInNewWindow,
-      source: this.pending_[id].source,
-      transitionQualifiers: this.pending_[id].transitionQualifiers,
-      transitionType: this.pending_[id].transitionType,
+      openedInNewWindow: this._pending[id].openedInNewWindow,
+      source: this._pending[id].source,
+      transitionQualifiers: this._pending[id].transitionQualifiers,
+      transitionType: this._pending[id].transitionType,
       url: data.url
     });
-    delete this.pending_[id];
-    this.saveDataState();
+    delete this._pending[id];
+    var saveData = this.saveDataState.bind(this);
+    saveData();
   },
 
 

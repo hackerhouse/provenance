@@ -1,6 +1,6 @@
 {
     "name": "__MSG_appName__",
-    "version": "0.0.3",
+    "version": "0.0.19",
     "manifest_version": 2,
     "description": "__MSG_appDescription__",
     "default_locale": "en",
@@ -9,22 +9,23 @@
         "default_icon": "imgs/icon.png",
         "default_popup": "popup.html"
     },
-  "background": {
+    "background": {
         "scripts": [
-            "js/collector.js", "js/background.js"
+            "js/collector.js",
+            "js/background.js"
         ]
-  },
-  "chrome_url_overrides" : {
-    "history": "history.html"
-  },
-  "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'",
-  "permissions": [
-    "tabs",
-    "history",
-    "management",
-    "webNavigation",
-    "http://*/*",
-    "unlimitedStorage",
-    "https://*/*"
-  ]
+    },
+    "chrome_url_overrides": {
+        "history": "history.html"
+    },
+    "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'",
+    "permissions": [
+        "tabs",
+        "history",
+        "management",
+        "webNavigation",
+        "http://*/*",
+        "unlimitedStorage",
+        "https://*/*"
+    ]
 }
