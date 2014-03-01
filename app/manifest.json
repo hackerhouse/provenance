@@ -1,16 +1,18 @@
 {
-  "name": "__MSG_appName__",
-  "version": "0.0.1",
-  "manifest_version": 2,
-  "description": "__MSG_appDescription__",
-  "default_locale": "en",
-  "browser_action": {
-    "default_title": "__MSG_appName__",
-    "default_icon": "imgs/icon.png",
-    "default_popup": "popup.html"
-  },
+    "name": "__MSG_appName__",
+    "version": "0.0.3",
+    "manifest_version": 2,
+    "description": "__MSG_appDescription__",
+    "default_locale": "en",
+    "browser_action": {
+        "default_title": "__MSG_appName__",
+        "default_icon": "imgs/icon.png",
+        "default_popup": "popup.html"
+    },
   "background": {
-    "scripts": ["js/background.js"]
+        "scripts": [
+            "js/collector.js", "js/background.js"
+        ]
   },
   "chrome_url_overrides" : {
     "history": "history.html"
