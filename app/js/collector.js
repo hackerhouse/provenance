@@ -1,6 +1,6 @@
 function Collector() {
-  this._pending;
-  this._completed;
+  this._pending = {};
+  this._completed = {};
 
   chrome.webNavigation.onCreatedNavigationTarget.addListener(
       this.createdNavigationTargetListener.bind(this)
@@ -104,7 +104,6 @@ Collector.prototype = {
     delete this.pending_[id];
     this.saveDataState();
   },
-
 
 
   // tabId ffunction from webnavigation API example.
