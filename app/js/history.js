@@ -1,14 +1,14 @@
 
-function render_history(tab) { 
-    $('#container').html(JSON.stringify(tab));
+function render_history(ctx) { 
+    $('#container').html(JSON.stringify(ctx));
 }
 
 /* Triggered when the chrome://history page is visited */
 document.addEventListener('DOMContentLoaded', function () {
-    if (chrome.extension.getBackgroundPage()._tab) {
+    if (chrome.extension.getBackgroundPage()._ctx) {
 	// Sync / update ctx from content.js via background.js
-	tab = chrome.extension.getBackgroundPage()._tab;
-	render_history(tab);
+	ctx = chrome.extension.getBackgroundPage()._ctx;
+	render_history(ctx);
     }
 });
 
