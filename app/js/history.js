@@ -5,10 +5,10 @@ function render_history(ctx) {
 
 /* Triggered when the chrome://history page is visited */
 document.addEventListener('DOMContentLoaded', function () {
-    if (chrome.extension.getBackgroundPage()._ctx) {
-	// Sync / update ctx from content.js via background.js
-	ctx = chrome.extension.getBackgroundPage()._ctx;
-	render_history(ctx);
+  if (chrome.extension.getBackgroundPage()._ctx) {
+    // Sync nodes from content.js via background.js
+    nodes = chrome.extension.getBackgroundPage()._nodes;
+      render_history(nodes);
     }
 });
 
@@ -17,8 +17,9 @@ document.addEventListener('DOMContentLoaded', function () {
   containing url and html
 */
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    var msg = {url: window.location.href,
-	       html: document.body.innerHTML
-	      }
-    sendResponse(msg);
+  var msg = {
+    url: window.location.href,
+    html: document.body.innerHTML
+  }
+  sendResponse(msg);
 });
