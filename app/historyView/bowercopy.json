@@ -1,0 +1,12 @@
+{
+    "libs": {
+        "options": {
+            "destPrefix": "app/js/vendor",
+            "clean": true
+        },
+        "files": {
+            "three.min.js": "threejs/build/three.min.js",
+            "d3.min.js": "d3/d3.min.js"
+        }
+    }
+}
