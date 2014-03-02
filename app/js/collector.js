@@ -114,15 +114,19 @@ Collector.prototype = {
    */
   onCompleted: function(data) {
     var id = this.parseId(data);
-    this._completed[data.url].push({
-      source: this._pending[id].source,
-      transitionQualifiers: this._pending[id].transitionQualifiers,
-      transitionType: this._pending[id].transitionType,
-      url: data.url
-    });
-    delete this._pending[id];
-    var saveData = this.saveDataState.bind(this);
-    saveData();
+    if (this._pending[id]) {
+      this._completed[data.url].push({
+        source: this._pending[id].source,
+        transitionQualifiers: this._pending[id].transitionQualifiers,
+        transitionType: this._pending[id].transitionType,
+        url: data.url
+      });
+      delete this._pending[id];
+      var saveData = this.saveDataState.bind(this);
+      saveData();
+    } else {
+      console.error(data.url);
+    }
   },
 
 
