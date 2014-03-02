@@ -8,11 +8,11 @@
   loading. Send the page's url and html content (and or other assets)
   as a payload. A callback may be provided as an option argument.
 */
-function notify_bg_to(method, data, callback) {
+function notify_bg_to(type, message, callback) {
   cb = (callback !== undefined) ? callback : function(response) { };
   chrome.extension.sendMessage({
-    'method': method,
-    'data': data,
+    'type': type,
+    'message': message,
   }, cb);
 }
 

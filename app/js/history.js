@@ -5,11 +5,11 @@ function render_history(ctx) {
 
 /* Triggered when the chrome://history page is visited */
 document.addEventListener('DOMContentLoaded', function () {
-  if (chrome.extension.getBackgroundPage()._ctx) {
+  if (chrome.extension.getBackgroundPage()._nodes) {
     // Sync nodes from content.js via background.js
     nodes = chrome.extension.getBackgroundPage()._nodes;
-      render_history(nodes);
-    }
+    render_history(nodes);
+  }
 });
 
 /*
