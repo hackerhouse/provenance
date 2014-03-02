@@ -58,7 +58,7 @@ Collector.prototype = {
     this._pending[id].newTab = data.tabId;
     this._pending[id].source = {
       tabId: data.sourceTabId,
-      frameId: data.sourceFrameId
+      frameId: data.sourceFrameId,
     };
     this._pending[id].timestamp = data.timeStamp;
   },
@@ -96,6 +96,8 @@ Collector.prototype = {
   onCompleted: function(data) {
     var id = this.parseId(data);
     if (this._pending[id]) {
+      this._pending[id].source.tabId = data.tabId;
+      this._pending[id].source.frameId = data.frameId;	
       this._completed[data.url].push({
         source: this._pending[id].source,
         transitionQualifiers: this._pending[id].transitionQualifiers,
