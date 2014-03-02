@@ -19,8 +19,8 @@
     "background": {
         "scripts": [
             "js/collector.js",
-            "js/background.js",
-            "js/db.js"
+            "js/db.js",
+            "js/background.js"
         ]
     },
     "chrome_url_overrides": {
