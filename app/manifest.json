@@ -9,6 +9,13 @@
         "default_icon": "imgs/icon.png",
         "default_popup": "popup.html"
     },
+    "content_scripts": [
+      {
+        "matches": ["*://*/*"],
+        "js": ["js/content.js"],
+        "run_at": "document_end"
+      }
+    ],
     "background": {
         "scripts": [
             "js/collector.js",
