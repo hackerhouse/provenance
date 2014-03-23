@@ -1,8 +1,12 @@
 function Collector() {
   this._completed = {};
+  this._pending = {};
 
   chrome.webNavigation.onCompleted.addListener(
       this.onCompleted.bind(this));
+
+  chrome.webNavigation.onCreatedNavigationTarget.addListener(
+      this.createdNavigationTargetListener.bind(this));
 
 }
 
@@ -46,6 +50,8 @@ Collector.prototype = {
    * new tab.
    */
   createdNavigationTargetListener: function(data) {
+    console.log('created nav target');
+    console.log(data);
     var id = this.parseId(data);
     this.prepareUrlStorage(id, data.url);
     this._pending[id].newTab = data.tabId;
@@ -87,9 +93,10 @@ Collector.prototype = {
    * a new NavigationCollector.Request object onto 'completed_'.
    */
   onCompleted: function(data) {
+    var id = this.parseId(data);
     if (this._pending[id]) {
       this._pending[id].source.tabId = data.tabId;
-      this._pending[id].source.frameId = data.frameId;	
+      this._pending[id].source.frameId = data.frameId;
       this._completed[data.url].push({
         source: this._pending[id].source,
         transitionQualifiers: this._pending[id].transitionQualifiers,
