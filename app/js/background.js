@@ -1,6 +1,6 @@
+
 var coll = new Collector();
 var _nodes, _ctx; // tracks state of content.js's tab & ctx
-
 db.open();
 
 function setup_nodes() {

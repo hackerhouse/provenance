@@ -2,7 +2,7 @@ var db = {};
 db.db = null;
 
 db.open = function() {
-  var version = 1.1;
+  var version = 2;
   var request = indexedDB.open("dendwrite", version);
 
   // We can only create Object stores in a versionchange transaction.

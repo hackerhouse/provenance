@@ -1,44 +1,79 @@
-(function() {
+var container, stats;
 
-var camera, scene, renderer;
-var geometry, material, mesh;
+var camera, controls, scene, renderer, texture, material;
+
+var cross;
 
 init();
 animate();
 
 function init() {
 
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.z = 1000;
+    camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
+    camera.position.z = 500;
+
+    controls = new THREE.OrbitControls( camera );
+    controls.addEventListener( 'change', render );
 
     scene = new THREE.Scene();
 
-    geometry = new THREE.CubeGeometry(200, 200, 200);
-    material = new THREE.MeshBasicMaterial({
-        color: 0xff0000,
-        wireframe: true
-    });
+    // world
 
-    mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+    var geometry = new THREE.PlaneGeometry(200, 200);
+    var texture = []
+    for (var i = 0; i<12; i++) {
+        texture.push(THREE.ImageUtils.loadTexture( "images/" + Math.ceil(Math.random() * 12 )+".png" ));
+    };
 
-    renderer = new THREE.CanvasRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    for ( var i = 0; i < 500; i ++ ) {
+        material = new THREE.MeshBasicMaterial( { map: texture[Math.ceil(Math.random() * 12 )] } );
 
-    document.body.appendChild(renderer.domElement);
+        var mesh = new THREE.Mesh( geometry, material );
+        mesh.position.x = ( Math.random() - 0.5 ) * 10000;
+        mesh.position.y = ( Math.random() - 0.5 ) * 10000;
+        mesh.position.z = (200);
+        mesh.updateMatrix();
+        mesh.matrixAutoUpdate = false;
+        scene.add( mesh );
+
+    }
+
+    // lights
+
+    light = new THREE.AmbientLight( 0xffffff );
+    scene.add( light );
+
+
+    // renderer
+
+    renderer = new THREE.WebGLRenderer( { antialias: false, alpha: true } );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
+    container = document.getElementById( 'container' );
+    container.appendChild( renderer.domElement );
+
+    window.addEventListener( 'resize', onWindowResize, false );
+
+}
+
+function onWindowResize() {
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
+    render();
 
 }
 
 function animate() {
 
-    // note: three.js includes requestAnimationFrame shim
-    requestAnimationFrame(animate);
-
-    mesh.rotation.x += 0.01;
-    mesh.rotation.y += 0.02;
-
-    renderer.render(scene, camera);
+    requestAnimationFrame( animate );
+    controls.update();
 
 }
 
-})();
+function render() {
+    renderer.render( scene, camera );
+}
